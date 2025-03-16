@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { QRCodeSVG } from "qrcode.react";
 import { ChevronLeft, MoreHorizontal } from "lucide-react";
-import { Engine } from "@tsparticles/engine";
+import { Engine, MoveDirection } from "@tsparticles/engine"; //
 import { loadSlim } from "@tsparticles/slim";
 import Particles from "@tsparticles/react";
 
@@ -53,7 +53,7 @@ const FrejaID = () => {
       move: {
         enable: true,
         speed: 1,
-        direction: "none",
+        direction: MoveDirection.none, //
         random: true,
         straight: false,
       },
@@ -76,12 +76,11 @@ const FrejaID = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-black relative">
       <div className="w-[97%] max-w-[420px] h-[900px] bg-gradient-to-t from-blue-600 to-blue-900 rounded-[40px] shadow-xl text-white flex flex-col items-center p-6 relative overflow-hidden z-10">
-        <Particles
-          id="tsparticles"
-          init={particlesInit}
-          options={particlesOptions}
-          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: -1 }}
-        />
+      <Particles
+        id="tsparticles"
+        options={particlesOptions}
+        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: -1 }}
+      />
         <div className="absolute top-4 w-28 h-6 bg-black rounded-full"></div>
 
         {/* Navbar med symboler och titel */}
