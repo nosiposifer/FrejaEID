@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image"; // Use Next.js optimized Image
 import { QRCodeSVG } from "qrcode.react";
 import { ChevronLeft, MoreHorizontal } from "lucide-react";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
-import { ISourceOptions } from "tsparticles-engine";
+import { ISourceOptions, Engine } from "tsparticles-engine";
 
 const FrejaID = () => {
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
@@ -32,7 +33,7 @@ const FrejaID = () => {
   const formatDate = (date: Date | null) =>
     date ? date.toLocaleDateString("sv-SE", { day: "2-digit", month: "short" }) : "-- --";
 
-  const particlesInit = useCallback(async (engine: any) => {
+  const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
 
@@ -83,7 +84,7 @@ const FrejaID = () => {
         />
         <div className="absolute top-4 w-28 h-6 bg-black rounded-full"></div>
 
-        {/* Navbar med symboler och titel */}
+        {/* Navbar */}
         <div className="absolute top-[80px] flex justify-between items-center w-[90%]">
           <div className="cursor-pointer">
             <ChevronLeft size={24} strokeWidth={2} className="text-white" />
@@ -94,9 +95,15 @@ const FrejaID = () => {
           </div>
         </div>
 
-        {/* Profilbild */}
+        {/* Profile Picture */}
         <div className="mt-24 w-[32vw] h-[32vw] max-w-48 max-h-48 rounded-full border-4 border-[#80cfff] overflow-hidden flex justify-center items-center">
-          <img src="/profile.jpg" alt="Profile" className="w-full h-full object-cover rounded-full" />
+          <Image
+            src="/profile.jpg"
+            alt="Profile"
+            width={192}
+            height={192}
+            className="w-full h-full object-cover rounded-full"
+          />
         </div>
 
         <p className="text-base mt-6 w-[90%] text-center">Giltigt t o m: <span className="font-bold">2024-07-21</span></p>
@@ -104,6 +111,7 @@ const FrejaID = () => {
         <p className="text-base mt-4 w-[90%] text-center">Namn: <span className="font-bold">Emil</span></p>
         <p className="text-base mt-4 w-[90%] text-center">Ålder: <span className="font-bold">18</span></p>
 
+        {/* Info Box */}
         <div className="bg-indigo-900 p-4 mt-6 rounded-lg w-[99.5%] text-center flex flex-col items-center relative z-10">
           <div className="grid grid-cols-3 w-full text-sm px-6">
             <p className="text-left -ml-6">Tid</p>
@@ -116,11 +124,14 @@ const FrejaID = () => {
             <p className="font-bold text-left">{validityTime} sek</p>
           </div>
 
+          {/* QR Code Box */}
           <div className="bg-white p-3 mt-2 rounded-lg w-[99.5%] text-center text-black">
             <div className="mt-2 flex justify-center">
               <QRCodeSVG value="https://kontroll.frejaeid.com" size={120} fgColor="#1e3a8a" />
             </div>
-            <p className="text-sm mt-2 text-[#1e3a8a]">Personnummer: <span className="font-bold text-[#1e3a8a]">060317-3613</span></p>
+            <p className="text-sm mt-2 text-[#1e3a8a]">
+              Personnummer: <span className="font-bold text-[#1e3a8a]">060317-3613</span>
+            </p>
           </div>
 
           <p className="text-sm mt-2 text-white">Kolla ID på: kontroll.frejaeid.com</p>
