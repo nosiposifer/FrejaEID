@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { QRCodeSVG } from "qrcode.react";
 import { ChevronLeft, MoreHorizontal } from "lucide-react";
-import { Engine, MoveDirection } from "@tsparticles/engine";
+import { MoveDirection, Engine } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
 import Particles from "@tsparticles/react";
 
@@ -25,6 +25,13 @@ const FrejaID = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const loadParticles = async (engine: Engine) => {
+      await loadSlim(engine);
+    };
+    loadParticles;
+  }, []);
+
   const formatTime = (date: Date | null) =>
     date
       ? date.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
@@ -32,12 +39,6 @@ const FrejaID = () => {
 
   const formatDate = (date: Date | null) =>
     date ? date.toLocaleDateString("sv-SE", { day: "2-digit", month: "short" }) : "-- --";
-
-  const particlesInit = useCallback(async (engine: unknown) => {
-    const castedEngine = engine as Engine; // Castar till rätt typ
-    console.log("Particles Init", castedEngine);
-    await loadSlim(castedEngine);
-  }, []);
 
   const particlesOptions = {
     fullScreen: { enable: false },
@@ -102,6 +103,24 @@ const FrejaID = () => {
         <p className="text-base mt-4 w-[90%] text-center">Efternamn: <span className="font-bold">Bengtsson</span></p>
         <p className="text-base mt-4 w-[90%] text-center">Namn: <span className="font-bold">Emil</span></p>
         <p className="text-base mt-4 w-[90%] text-center">Ålder: <span className="font-bold">18</span></p>
+
+        {/* Time, Date, Validity */}
+        <div className="bg-indigo-900 py-3 px-4 mt-3 rounded-2xl w-[98%] text-center flex flex-col items-center relative z-10">
+          <div className="grid grid-cols-3 w-full text-sm px-3">
+            <div className="flex flex-col items-start">
+              <p className="text-xs leading-none">Tid</p>
+              <p className="font-bold text-lg leading-none">{formatTime(currentTime)}</p>
+            </div>
+            <div className="flex flex-col items-start">
+              <p className="text-xs leading-none">Datum</p>
+              <p className="font-bold text-lg leading-none">{formatDate(currentTime)}</p>
+            </div>
+            <div className="flex flex-col items-start">
+              <p className="text-xs leading-none">Giltig i</p>
+              <p className="font-bold text-lg leading-none">{validityTime} sek</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
