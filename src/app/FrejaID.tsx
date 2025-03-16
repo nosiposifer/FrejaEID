@@ -34,6 +34,7 @@ const FrejaID = () => {
     date ? date.toLocaleDateString("sv-SE", { day: "2-digit", month: "short" }) : "-- --";
 
   const particlesInit = useCallback(async (engine: Engine) => {
+    console.log("Particles Init", engine); // Debugging log
     await loadSlim(engine);
   }, []);
 
@@ -79,7 +80,6 @@ const FrejaID = () => {
       <Particles
         id="tsparticles"
         options={particlesOptions}
-        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: -1 }}
       />
         <div className="absolute top-4 w-28 h-6 bg-black rounded-full"></div>
 
